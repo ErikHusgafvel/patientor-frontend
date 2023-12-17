@@ -29,6 +29,41 @@ const PatientInfoPage = ({ patient }: Props) => {
         {' '}
         occupation: {patient.occupation}{' '}
       </Typography>
+      {patient.entries.length > 0 ? (
+        <div>
+          <Typography variant="h6" style={{ margin: '1em 0em' }}>
+            {' '}
+            entries
+          </Typography>
+          {patient.entries.map((entry) => (
+            <div key={entry.id}>
+              <div>
+                {' '}
+                {/** place these on the same line */}
+                <Typography variant="body1" display="inline">
+                  {entry.date}{' '}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  display="inline"
+                  sx={{ fontStyle: 'italic' }}
+                >
+                  {entry.description}
+                </Typography>
+              </div>
+              {entry.diagnosisCodes ? (
+                <div>
+                  <ul>
+                    {entry.diagnosisCodes.map((diagnCode, index) => (
+                      <li key={index}>{diagnCode}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : null}
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 };
