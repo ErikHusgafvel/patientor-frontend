@@ -2,13 +2,14 @@ import { Typography } from '@mui/material';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Patient } from '../../types';
+import { Patient, Diagnosis } from '../../types';
 
 interface Props {
   patient: Patient | undefined;
+  diagnosis: Array<Diagnosis>;
 }
 
-const PatientInfoPage = ({ patient }: Props) => {
+const PatientInfoPage = ({ patient, diagnosis }: Props) => {
   if (!patient) {
     return null;
   }
@@ -54,9 +55,19 @@ const PatientInfoPage = ({ patient }: Props) => {
               {entry.diagnosisCodes ? (
                 <div>
                   <ul>
-                    {entry.diagnosisCodes.map((diagnCode, index) => (
-                      <li key={index}>{diagnCode}</li>
-                    ))}
+                    {entry.diagnosisCodes.map((diagnCode, index) => {
+                      const diagnDescription = diagnosis.find(
+                        (diagnoses) => diagnoses.code === diagnCode
+                      )?.name;
+                      if (diagnDescription) {
+                        return (
+                          <li key={index}>
+                            {diagnCode} {diagnDescription}
+                          </li>
+                        );
+                      }
+                      return <li key={index}>{diagnCode}</li>;
+                    })}
                   </ul>
                 </div>
               ) : null}
